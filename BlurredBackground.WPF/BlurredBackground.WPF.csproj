@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net47;net48;net5.0-windows;net6.0-windows;net8.0-windows</TargetFrameworks>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>$(AssemblyVersion)</FileVersion>
+    <Version>$(AssemblyVersion)</Version>
+    <UseWPF>true</UseWPF>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Title>$(AssemblyName)</Title>
+    <Authors>V4SS3UR</Authors>
+    <Product>$(AssemblyName)</Product>
+    <Copyright>V4SS3UR</Copyright>
+    <Description>BlurredBackground.WPF is a WPF library that allows developers to easily implement a frosted glass effect in their applications. By adding a blur effect to the background of UI elements, this library enhances visual appeal without interfering with the content. Customize blur intensity and opacity effortlessly to create stunning user interfaces.</Description>
+    <PackageProjectUrl>https://github.com/V4SS3UR/BlurredBackground.WPF</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/V4SS3UR/BlurredBackground.WPF</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>WPF; UI; BlurEffect; FrostedGlass; XAML; Windows; VisualEffects; Graphics; UserInterface; CSharp; DesktopApp; DependencyProperties; Library; Design; Styling</PackageTags>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <SignAssembly>False</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

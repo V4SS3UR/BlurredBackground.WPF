@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Backgrounds -->
+    <SolidColorBrush x:Key="MainBackground" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="SecondaryBackground" Color="#E0E0E0"/>
+
+    <!-- TopBar -->
+    <SolidColorBrush x:Key="TopBarBackground" Color="#B0BEC5"/>
+    <SolidColorBrush x:Key="TopBarBackground2" Color="#90A4AE"/>
+    <SolidColorBrush x:Key="TopBarForeground" Color="#FFFFFF"/>
+
+    <!-- Buttons -->
+    <SolidColorBrush x:Key="ButtonBackground" Color="#CFD8DC"/>
+    <SolidColorBrush x:Key="ButtonHoverBackground" Color="#B0BEC5"/>
+    <SolidColorBrush x:Key="ButtonFocusedBackground" Color="#90A4AE"/>
+    <SolidColorBrush x:Key="ButtonForeground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ButtonDisabledBackground" Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="ButtonDisabledForeground" Color="#B0BEC5"/>
+
+    <!-- Borders -->
+    <SolidColorBrush x:Key="BorderBackground" Color="#C9D2D7"/>
+    <SolidColorBrush x:Key="AccentBorder" Color="#90A4AE"/>
+
+    <!-- Text -->
+    <SolidColorBrush x:Key="MainText" Color="#37474F"/>
+    <SolidColorBrush x:Key="SecondaryText" Color="#607D8B"/>
+
+    <!-- Highlights/Accents -->
+    <SolidColorBrush x:Key="HighlightBackground" Color="#B0BEC5"/>
+    <SolidColorBrush x:Key="Accent" Color="#90A4AE"/>
+
+    <!-- Colors -->
+    <Color x:Key="MainBackgroundColor">#F5F5F5</Color>
+    <Color x:Key="SecondaryBackgroundColor">#E0E0E0</Color>
+    <Color x:Key="TopBarBackgroundColor">#B0BEC5</Color>
+    <Color x:Key="TopBarBackgroundColor2">#90A4AE</Color>
+    <Color x:Key="ButtonBackgroundColor">#CFD8DC</Color>
+    <Color x:Key="ButtonHoverBackgroundColor">#B0BEC5</Color>
+    <Color x:Key="ButtonFocusedBackgroundColor">#90A4AE</Color>
+    <Color x:Key="ButtonForegroundColor">#FFFFFF</Color>
+    <Color x:Key="ButtonDisabledBackgroundColor">#E0E0E0</Color>
+    <Color x:Key="ButtonDisabledForegroundColor">#B0BEC5</Color>
+    <Color x:Key="BorderBackgroundColor">#B0BEC5</Color>
+    <Color x:Key="AccentBorderColor">#90A4AE</Color>
+    <Color x:Key="MainTextColor">#37474F</Color>
+    <Color x:Key="SecondaryTextColor">#607D8B</Color>
+    <Color x:Key="HighlightBackgroundColor">#B0BEC5</Color>
+    <Color x:Key="AccentColor">#90A4AE</Color>
+
+</ResourceDictionary>

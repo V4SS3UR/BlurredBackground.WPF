@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="TestApplication.MVVM.View.MainInterface_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:TestApplication.MVVM.ViewModel"
+             xmlns:fade="clr-namespace:VsrFade.Controls;assembly=VsrFade"
+             xmlns:local="clr-namespace:TestApplication.MVVM.View"
+             xmlns:blur="clr-namespace:BlurredBackground.WPF;assembly=BlurredBackground.WPF"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:MainInterface_ViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <Style TargetType="fade:FadeButton">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Background" Value="LightGray"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>        
+
+        <DockPanel>
+            <WrapPanel DockPanel.Dock="Top" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5">
+                <StackPanel Orientation="Horizontal" >
+                    <fade:FadeToggleSwitchButton x:Name="DisplayBorderCheckBox" IsChecked="True"/>
+                    <TextBlock Text="Display Border" Margin="10,0,0,0"/>
+                </StackPanel>
+            </WrapPanel>
+
+            <Image Source="/Ressources/Colorful bg.jpg" RenderOptions.BitmapScalingMode="HighQuality"/>
+        </DockPanel>        
+
+        <!-- Random Elements Between Image and DockPanel -->
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20">
+            <TextBlock Text="Back Title" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="0,10,0,0" HorizontalAlignment="Center"/>
+            <fade:FadeButton Content="Click Me!" Width="120" Height="40" Margin="10"/>
+            <ListBox Width="200" Margin="10">
+                <ListBoxItem Content="Item 1"/>
+                <ListBoxItem Content="Item 2"/>
+                <ListBoxItem Content="Item 3"/>
+                <ListBoxItem Content="Item 4"/>
+            </ListBox>
+            <TextBlock Text="Here is a description of something interesting."  FontSize="14" Foreground="White"/>
+        </StackPanel>
+
+        <DockPanel>
+
+            <!-- Blurry Background Effect inside Border -->
+            <Border x:Name="MyBorder" CornerRadius="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                Margin="50" Background="Gray" 
+                blur:BlurredBackground.EnableBlur="{Binding IsBlurEnabled}"
+                blur:BlurredBackground.BlurRadius="{Binding BlurRadius}"
+                blur:BlurredBackground.Dpi="{Binding DPI}"
+                blur:BlurredBackground.Merging="{Binding Merging}">
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=DisplayBorderCheckBox, Path=IsChecked}" Value="false">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <!-- Sliders and Checkbox for Controls -->
+                <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                    <!-- Checkbox to enable/disable blur -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Blur" FontWeight="Bold"/>
+                        <fade:FadeToggleSwitchButton IsChecked="{Binding IsBlurEnabled}" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    
+                    <!-- Slider for Blur Radius -->
+                    <TextBlock Text="Blur Radius:" FontWeight="Bold"  Margin="0,10,0,0"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Minimum="0" Maximum="50" Value="{Binding BlurRadius}"  IsEnabled="{Binding IsBlurEnabled}" Width="200"/>
+                        <TextBlock Text="{Binding BlurRadius, StringFormat=N2}"/>
+                    </StackPanel>
+
+
+                    <!-- Slider for Merging Behavior -->
+                    <TextBlock Text="Merging (Opacity):" FontWeight="Bold" Margin="0,10,0,0"/>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Minimum="0" Maximum="1" Value="{Binding Merging}"  IsEnabled="{Binding IsBlurEnabled}" Width="200" SmallChange="0.1"/>
+                        <TextBlock Text="{Binding Merging, StringFormat=N2}"/>
+                    </StackPanel>
+                    
+                    <!-- Slider for DPI -->
+                    <TextBlock Text="DPI:" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Slider Minimum="1" Maximum="300" Value="{Binding DPI}"  IsEnabled="{Binding IsBlurEnabled}" Width="200" SmallChange="10"/>
+
+                        <TextBlock Text="{Binding DPI, StringFormat=N2}"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </Border>
+        </DockPanel>
+        
+    </Grid>
+</UserControl>

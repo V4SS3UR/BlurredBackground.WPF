@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{9CFC1B36-D83B-4886-8A81-28E44BBB4FEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlurredBackground.WPF", "BlurredBackground.WPF\BlurredBackground.WPF.csproj", "{16FA616D-CB61-4D54-9CB0-1964ABDE39B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CFC1B36-D83B-4886-8A81-28E44BBB4FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CFC1B36-D83B-4886-8A81-28E44BBB4FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CFC1B36-D83B-4886-8A81-28E44BBB4FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CFC1B36-D83B-4886-8A81-28E44BBB4FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16FA616D-CB61-4D54-9CB0-1964ABDE39B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16FA616D-CB61-4D54-9CB0-1964ABDE39B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16FA616D-CB61-4D54-9CB0-1964ABDE39B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16FA616D-CB61-4D54-9CB0-1964ABDE39B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {237EA5F2-4910-4BF5-AE85-4D6FC222EC0F}
+	EndGlobalSection
+EndGlobal
