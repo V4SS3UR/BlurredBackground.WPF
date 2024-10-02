@@ -1,9 +1,9 @@
 # BlurredBackground.WPF
 
-BlurredBackground is a powerful library for C# WPF applications that allows developers to easily add a blurred background effect to UI elements in their WPF applications without affecting the element's content. Enhance your application’s visual appeal by creating a frosted glass effect on the backgrounds of specified controls.
+BlurredBackground is a powerful library for C# WPF applications that allows developers to easily add a blurred background effect to UI elements in their WPF applications without affecting the element's content. Enhance your applicationâ€™s visual appeal by creating a frosted glass effect on the backgrounds of specified controls.
 
 <p align="center">
-        <img src="https://via.placeholder.com/800x400" width="80%">  <!-- Replace with an actual image link -->
+        <img src="https://github.com/user-attachments/assets/001b9c4d-06ab-434f-bb7e-2ee7e1821710" width="50%"> 
 </p>
 
 ## Features
@@ -45,7 +45,7 @@ Include the `BlurredBackground` effect on a `Border` in your main window or the 
                 local:BlurredBackground.BlurRadius="10"
                 local:BlurredBackground.Merging="0.5"
                 local:BlurredBackground.Dpi="96"
-                Background="Transparent">
+                Background="Gray">
             <TextBlock Text="Hello, World!" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
@@ -70,7 +70,8 @@ The library hooks into the `Loaded` and `SizeChanged` events of the `Border` con
 You can customize the blur appearance by adjusting the `BlurRadius`, `Merging`, and `Dpi` properties on the `Border` control.
 
 <p align="center">
-        <img src="https://via.placeholder.com/800x400" width="80%">  <!-- Replace with an actual image link -->
+        <img src="https://github.com/user-attachments/assets/ad74750a-a463-41b1-a851-fc254fc98140" width="50%">
+        <img src="https://github.com/user-attachments/assets/f283b3b0-c673-43fc-b26f-08cbb2c0909d" width="50%">
 </p>
 
 ## Contributing
