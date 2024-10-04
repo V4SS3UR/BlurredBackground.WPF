@@ -60,7 +60,7 @@ Include the `BlurredBackground` effect on a `Border` in your main window or the 
 
 - **EnableBlur**: Set to `true` to activate the blur effect.
 - **BlurRadius**: Adjusts the strength of the blur. The default value is `20.0`.
-- **Merging**: Sets the opacity of the blurred background. The default is `0.5`.
+- **Merging**: Sets the opacity of the blurred background. The default is `1`.
 - **Dpi**: Adjusts the DPI settings for the rendered blur effect. Default is `96` A suitable value for performance is `30`.
 
 The library hooks into the `Loaded` and `SizeChanged` events of the `Border` control to apply and update the blur effect dynamically as needed.
