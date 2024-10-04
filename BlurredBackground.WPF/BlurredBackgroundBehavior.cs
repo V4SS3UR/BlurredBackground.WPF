@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -29,14 +28,14 @@ namespace BlurredBackground.WPF
                 "Merging",
                 typeof(double),
                 typeof(BlurredBackground),
-                new PropertyMetadata(0.5, OnMergingChanged));
+                new PropertyMetadata(1, OnMergingChanged));
 
         public static readonly DependencyProperty DpiProperty =
             DependencyProperty.RegisterAttached(
                 "Dpi",
                 typeof(int),
                 typeof(BlurredBackground),
-                new PropertyMetadata(96, OnDpiChanged)); // Default to 96 DPI
+                new PropertyMetadata(96, OnDpiChanged));
 
         // Getters and Setters
         public static bool GetEnableBlur(DependencyObject obj) => (bool)obj.GetValue(EnableBlurProperty);
@@ -115,7 +114,11 @@ namespace BlurredBackground.WPF
 
             //Insert blurry rectangle then content 
             contentGrid.Children.Insert(0, backgroundRectangle);
-            contentGrid.Children.Add(borderContent);
+
+            if(borderContent!=null)
+            {
+                contentGrid.Children.Add(borderContent);
+            }
 
             UpdateBlurEffect(border);
         }
@@ -174,150 +177,53 @@ namespace BlurredBackground.WPF
 
         private static void UpdateVisualBrush(Border border, Rectangle backgroundRectangle)
         {
-            int dpi = GetDpi(border); // Use the DPI property
+            if (border.Visibility != Visibility.Visible)
+                return;
 
-            //If no cached data or size changed
-            if (cachedBitmap == null || (int)border.ActualWidth != cachedBitmap.PixelWidth || (int)border.ActualHeight != cachedBitmap.PixelHeight)
+            // Find the parent window of the border
+            var window = border.FindParent<Window>();
+            var dpi = GetDpi(border);
+            var borderSize = new Size(border.ActualWidth, border.ActualHeight);
+            var baseOpacity = border.Opacity;
+
+            // Get the root content of the window (this is typically the main content container)
+            var rootVisual = window.Content as Visual;
+
+            // Hide the child component temporarily
+            if (border is UIElement uiElementToExclude)
             {
-                cachedBitmap = new RenderTargetBitmap( (int)border.ActualWidth, (int)border.ActualHeight, 96d, 96d, PixelFormats.Pbgra32);
+                uiElementToExclude.Opacity = 0;
             }
 
+            // Get the dimensions of the content area
+            var transform = border.TransformToVisual(window); // Transform from border to window coordinates
+            var borderPosition = transform.Transform(new Point(0, 0)); // Get the top-left position of the border relative to the window
 
-            var visual = new DrawingVisual();
-            using (var context = visual.RenderOpen())
-            {
-                var window = border.FindParent<Window>();
+            // Calculate the size of the RenderTargetBitmap based on the border's size
+            int width = (int)(window.ActualWidth * dpi / 96);
+            int height = (int)(window.ActualHeight * dpi / 96);            
 
-                if (window != null)
-                {
-                    var borderPosition = border.TranslatePoint(new Point(0, 0), window);
-                    var visualBrush = GetParentVisualFromWindow(window, border);
+            // Render only the root content of the window (exclude window chrome)
+            RenderTargetBitmap renderTarget = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
+            renderTarget.Render(rootVisual);
 
-                    visualBrush.Stretch = Stretch.None;
-                    visualBrush.Viewbox = new Rect(borderPosition.X, borderPosition.Y, border.ActualWidth, border.ActualHeight);
-                    visualBrush.ViewboxUnits = BrushMappingMode.Absolute;
-
-                    context.DrawRectangle(visualBrush, null, new Rect(0, 0, border.ActualWidth, border.ActualHeight));
-                }
-            }
-
-            var renderTargetBitmap = cachedBitmap;
-            renderTargetBitmap.Render(visual);
-
-            var imageBrush = new ImageBrush(renderTargetBitmap)
+            // Create an ImageBrush from the RenderTargetBitmap
+            var imageBrush = new ImageBrush(renderTarget)
             {
                 Stretch = Stretch.None,
-                Opacity = GetMerging(border),
+                ViewboxUnits = BrushMappingMode.Absolute,
+                Viewbox = new Rect(borderPosition.X, borderPosition.Y, borderSize.Width, borderSize.Height),
+                Opacity = GetMerging(border)
             };
 
-            if (!IsBrushEqual(backgroundRectangle.Fill, imageBrush))
+            // Apply the VisualBrush to the background rectangle
+            backgroundRectangle.Fill = imageBrush;
+
+            // Restore the visibility of the excluded child component
+            if (border is UIElement uiElementToRestore)
             {
-                backgroundRectangle.Fill = imageBrush;
+                uiElementToRestore.Opacity = baseOpacity;
             }
-        }
-
-        private static bool IsBrushEqual(Brush brush1, Brush brush2)
-        {
-            if (brush1 is ImageBrush imageBrush1 && brush2 is ImageBrush imageBrush2)
-            {
-                return imageBrush1.ImageSource == imageBrush2.ImageSource &&
-                       imageBrush1.Opacity == imageBrush2.Opacity;
-            }
-
-            return false;
-        }
-
-
-
-        // This method creates a VisualBrush that represents the visual hierarchy of a given UIElement within a window.
-        // It captures all the parent visuals except the specified target element itself.
-        private static VisualBrush GetParentVisualFromWindow(Window window, UIElement uIElement)
-        {
-            DrawingVisual drawingVisual = new DrawingVisual();
-
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
-                // Call a recursive method to draw the visual hierarchy, starting from the window (root element).
-                DrawVisualHierarchy(window, uIElement, window, drawingContext);
-            }
-
-            return new VisualBrush(drawingVisual);
-        }
-
-        // This method recursively traverses and draws the visual hierarchy, skipping the target element.
-        private static void DrawVisualHierarchy(Visual parent, UIElement targetElement, Window window, DrawingContext drawingContext)
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                if (VisualTreeHelper.GetChild(parent, i) is UIElement child)
-                {
-                    // Ensure that the current child is not the target element that we want to exclude.
-                    if (child != targetElement)
-                    {
-                        var bounds = VisualTreeHelper.GetContentBounds(child);
-
-                        // Check if the bounds are valid (i.e., non-empty and positive dimensions).
-                        if (!bounds.IsEmpty && bounds.Width > 0 && bounds.Height > 0)
-                        {
-                            // Create a brush from the visual.
-                            var brush = MakeBrushFromVisual(child, bounds, GetDpi(targetElement));
-
-                            Point childPosition = child.TranslatePoint(new Point(0, 0), window);
-
-                            // Draw the child visual onto the DrawingContext with the calculated position and size.
-                            drawingContext.DrawRectangle(brush, null, new Rect(childPosition, new Size(child.RenderSize.Width, child.RenderSize.Height)));
-                        }
-
-                        // Recursively call this method to process all the child elements of the current child.
-                        DrawVisualHierarchy(child, targetElement, window, drawingContext);
-                    }
-                }
-            }
-        }
-
-        private static Brush MakeBrushFromVisual(Visual visual, Rect bounds, int dpi)
-        {
-            Drawing drawing = VisualTreeHelper.GetDrawing(visual);
-            if (drawing == null) 
-                return Brushes.Transparent;
-
-
-            // Create a matrix to translate the visual by the negative bounds (to handle offsets).
-
-            DrawingVisual drawingVisual = new DrawingVisual();
-            using (DrawingContext drawingContext = drawingVisual.RenderOpen())
-            {
-                drawingContext.DrawDrawing(drawing);
-            }
-
-            // Render the visual into a bitmap with the specified DPI.
-            RenderTargetBitmap renderTargetBitmap = RenderVisual(drawingVisual, ((UIElement)visual).RenderSize, dpi);
-            renderTargetBitmap.Freeze();
-
-            // Create an ImageBrush using the rendered bitmap.
-            ImageBrush imageBrush = new ImageBrush(renderTargetBitmap);
-            imageBrush.Freeze();
-
-            return imageBrush;
-        }
-
-        private static RenderTargetBitmap RenderVisual(Visual visual, Size bounds, int dpi)
-        {
-            const double BaseDpi = 96.0;
-
-            // Calculate the scaling factors for X and Y based on the target DPI.
-            double scaleX = dpi / BaseDpi;
-            double scaleY = dpi / BaseDpi;
-
-            // Compute the pixel dimensions of the bitmap, ensuring the size is rounded up to avoid clipping.
-            int pixelWidth = (int)Math.Ceiling(scaleX * bounds.Width);
-            int pixelHeight = (int)Math.Ceiling(scaleY * bounds.Height);
-
-            var renderTargetBitmap = new RenderTargetBitmap(pixelWidth, pixelHeight, dpi, dpi, PixelFormats.Pbgra32);
-            renderTargetBitmap.Render(visual);
-            renderTargetBitmap.Freeze();
-
-            return renderTargetBitmap;
         }
     }
 }
