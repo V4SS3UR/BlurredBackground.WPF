@@ -28,7 +28,7 @@ namespace BlurredBackground.WPF
                 "Merging",
                 typeof(double),
                 typeof(BlurredBackground),
-                new PropertyMetadata(1, OnMergingChanged));
+                new PropertyMetadata(1.0, OnMergingChanged));
 
         public static readonly DependencyProperty DpiProperty =
             DependencyProperty.RegisterAttached(

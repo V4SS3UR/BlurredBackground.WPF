@@ -70,8 +70,8 @@ The library hooks into the `Loaded` and `SizeChanged` events of the `Border` con
 You can customize the blur appearance by adjusting the `BlurRadius`, `Merging`, and `Dpi` properties on the `Border` control.
 
 <p align="center">
-        <img src="https://github.com/user-attachments/assets/ad74750a-a463-41b1-a851-fc254fc98140" width="50%">
-        <img src="https://github.com/user-attachments/assets/f283b3b0-c673-43fc-b26f-08cbb2c0909d" width="50%">
+        <img src="https://github.com/user-attachments/assets/ad74750a-a463-41b1-a851-fc254fc98140" width="45%">
+        <img src="https://github.com/user-attachments/assets/f283b3b0-c673-43fc-b26f-08cbb2c0909d" width="45%">
 </p>
 
 ## Contributing
